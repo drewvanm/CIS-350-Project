@@ -1,5 +1,3 @@
-
-
 import java.util.ArrayList;
 /**
  * This class represents a game to guess movies.
@@ -67,7 +65,7 @@ public class Game {
 	 * Sets the current player based on the argument.
 	 * @param curr the player you want to be set to the current player
 	 */
-	public final void setCurrentPlayer(Player curr){
+	public final void setCurrentPlayer(final Player curr) {
 		currentPlayer = curr;
 	}
 	

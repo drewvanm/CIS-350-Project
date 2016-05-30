@@ -11,7 +11,6 @@ import java.net.URL;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 /**
@@ -110,16 +109,17 @@ public class Actor {
 	 */
 	public final JLabel getActorProfilePic(final int width, final int height) {
 		try {
-			URL url = new URL("http://image.tmdb.org/t/p//original" + actorPersonObject.getProfilePath());
+			URL url = new URL("http://image.tmdb.org/t/p//original"
+					+ actorPersonObject.getProfilePath());
 			ImageIcon pic  = new ImageIcon(url);
 			Image img = pic.getImage();
-			Image newimg = img.getScaledInstance(width, height, java.awt.Image.SCALE_SMOOTH);
+			Image newimg = img.getScaledInstance(width, height,
+					java.awt.Image.SCALE_SMOOTH);
 			ImageIcon newicon = new ImageIcon(newimg);
 			JLabel picture = new JLabel(newicon);
 			
 			return picture;
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		JLabel error = new JLabel("Could Not Find Picture");
