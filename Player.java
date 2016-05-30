@@ -1,10 +1,5 @@
-package game;
 
-/**
- * 
- * @author Trever
- *
- */
+
 public class Player {
 	/**
 	 * Player's score.
@@ -22,11 +17,10 @@ public class Player {
 	private boolean active;
 	
 	/**
-	 * Constructor: initialize player with 
-	 * score of zero, active flag set true and passed name.
-	 * @param pName player's name
+	 * Constructor: initialize player with score of zero, active flag set true and passed name.
+	 * @param pName: player's name
 	 */
-	public Player(final String pName) {
+	public Player(String pName) {
 		this.score = 0;
 		this.name = pName;
 		this.active = true;
@@ -36,7 +30,7 @@ public class Player {
 	 * Method to return player's score for the score board.
 	 * @return score
 	 */
-	public final int getScore() {
+	public int getScore() {
 		return score;
 	}
 	
@@ -44,7 +38,7 @@ public class Player {
 	 * Method to set name if desired after initial constructor set.
 	 * @param pName name to set player's name to
 	 */
-	public final void setName(final String pName) {
+	public void setName(String pName) {
 		this.name = pName;
 	}
 	
@@ -52,7 +46,7 @@ public class Player {
 	 * Method to return player's name for score board and game panel.
 	 * @return name
 	 */
-	public final String getName() {
+	public String getName() {
 		return name;
 	}
 	
@@ -60,22 +54,21 @@ public class Player {
 	 * Method to return whether or not a player is active in the current round.
 	 * @return active
 	 */
-	public final boolean isActive() {
+	public boolean isActive() {
 		return active;
 	}
 	
 	/**
 	 * Method to increment players score upon winning a round.
 	 */
-	public final void winRound() {
+	public void winRound() {
 		score++;
 	}
 	
 	/**
-	 * Method to remove player from current 
-	 * round after failing to answer correctly (set active flag false).
+	 * Method to remove player from current round after failing to answer correctly (set active flag false).
 	 */
-	public final void loseRound() {
+	public void loseRound() {
 		this.active = false;
 	}
 		
@@ -89,14 +82,14 @@ public class Player {
 	/**
 	 * Method to reset active flag at the start of a new round.
 	 */
-	public final void newRound() {
+	public void newRound() {
 		this.active = true;
 	}
 
 	/**
 	 * Method run to reset player at the start of a new game.
 	 */
-	public final void newGame() {
+	public void newGame() {
 		reset();
 		newRound();
 	}	
