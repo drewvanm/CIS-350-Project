@@ -104,6 +104,7 @@ public class SetNames {
 		popup.getContentPane().add(buttonCont, BorderLayout.SOUTH);
 		popup.setLocationRelativeTo(null);
 		popup.setVisible(true);
+		popup.setAlwaysOnTop(true);
 	}
 	
 	/**
@@ -139,7 +140,6 @@ public class SetNames {
 	    				null, "Names updated!");
 				
 				textArea.setText(game.getNamesAndScores());
-				popup.dispose();
 			}
 		};
 		Action cancelInput = new AbstractAction() {
