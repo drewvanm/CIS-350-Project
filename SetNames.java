@@ -57,7 +57,7 @@ public class SetNames {
 		int row = 0;
 		
 		popup = new JFrame();
-		popup.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		popup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		popup.setTitle("Set Player Names");
 		popup.setSize(frameWidth, frameHeight);
 	
@@ -119,9 +119,14 @@ public class SetNames {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				for (int i = 0; i < game.players.size(); i++) {
-					if (newNames.get(i).getText() == "") {
+					if (newNames.get(i).getText().equals("")) {
 						JOptionPane.showMessageDialog(
 			    				null, "Cannot leave a name blank!");
+						return;
+					}
+					else if (newNames.get(i).getText().length() >= 12){
+						JOptionPane.showMessageDialog(
+			    				null, newNames.get(i).getText() + " is too long of a name");
 						return;
 					}
 				}

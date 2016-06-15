@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -16,6 +17,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -74,6 +76,10 @@ public class GameWindow {
 	 * This holds the guessed movies.
 	 */
 	private JTextArea txtAreaGuessBoard;
+	/**
+	 * This holds the scroll panes.
+	 */
+	private JScrollPane scoreScrollPane, guessedScrollPane;
 	/**
 	 * This holds the underlying game object.
 	 */
@@ -213,20 +219,27 @@ public class GameWindow {
 		txtAreaScoreBoard.setWrapStyleWord(true);
 		txtAreaScoreBoard.setBorder(BorderFactory.createLineBorder(
 				Color.BLACK, 2, true));
-		txtAreaScoreBoard.setBounds(136, 87, 276, 100);
-		layeredPane.add(txtAreaScoreBoard);
+		
 
 		txtAreaGuessBoard = new JTextArea("");
 		txtAreaGuessBoard.setEditable(false);
 		txtAreaGuessBoard.setWrapStyleWord(true);
 		txtAreaGuessBoard.setBorder(BorderFactory.createLineBorder(
 				Color.BLACK, 2, true));
-		txtAreaGuessBoard.setBounds(136, 486, 276, 125);
-		layeredPane.add(txtAreaGuessBoard);
 		
 		
+		scoreScrollPane = new JScrollPane();
+		guessedScrollPane = new JScrollPane();
 		
-
+		scoreScrollPane.setViewportView(txtAreaScoreBoard);
+		guessedScrollPane.setViewportView(txtAreaGuessBoard);
+		
+		scoreScrollPane.setBounds(new Rectangle(136, 87, 276, 100));
+		guessedScrollPane.setBounds(new Rectangle(136, 486, 276, 125));
+		
+		layeredPane.add(scoreScrollPane);
+		layeredPane.add(guessedScrollPane);
+		
 		displayNewRound();
 		setUpEventListeners();
 	}
@@ -243,51 +256,53 @@ public class GameWindow {
 
 			@Override
 			public void actionPerformed(final ActionEvent e) {
-				if (state.equals(GameState.ACTOR)) {
-					currentActor = new Actor(searchBarBox.getText());
-					updateProfilePic();
-					state = GameState.MOVIES;
-					txtAreaConsole.setText(game.getCurrentPlayer().getName() 
-							+ ", now name a movie with\n"
-							+ currentActor.getActorName() + " in it");
-					btnGuess.setText("Guess");
-				} else if (state.equals(GameState.MOVIES)) {
-					if (currentActor.actorInMovie(searchBarBox.getText())) {
-
-						txtAreaConsole.setText("Correct");
-						game.nextPlayer();
-						txtAreaConsole.append("\n" 
-								+ game.getCurrentPlayer().getName() 
-								+ ", name a movie");
-						txtAreaGuessBoard.append(
-								currentActor.getMostRecentMovie() + "\n");
-						currentActor.addToMoviesGuessed(
-								currentActor.getMostRecentMovie());
-						if (posterPic != null) {
-							layeredPane.remove(posterPic);
+				if(!searchBarBox.getText().isEmpty()){
+					if (state.equals(GameState.ACTOR)) {
+						currentActor = new Actor(searchBarBox.getText());
+						updateProfilePic();
+						state = GameState.MOVIES;
+						txtAreaConsole.setText(game.getCurrentPlayer().getName() 
+								+ ", now name a movie with\n"
+								+ currentActor.getActorName() + " in it");
+						btnGuess.setText("Guess");
+					} else if (state.equals(GameState.MOVIES)) {
+						if (currentActor.actorInMovie(searchBarBox.getText())) {
+	
+							txtAreaConsole.setText("Correct");
+							game.nextPlayer();
+							txtAreaConsole.append("\n" 
+									+ game.getCurrentPlayer().getName() 
+									+ ", name a movie");
+							txtAreaGuessBoard.append(
+									currentActor.getMostRecentMovie() + "\n");
+							currentActor.addToMoviesGuessed(
+									currentActor.getMostRecentMovie());
+							if (posterPic != null) {
+								layeredPane.remove(posterPic);
+							}
+							updateMoviePosterPic();
+							clearSearhBar();
+						} else {
+							if (game.getNumOfEliminatedPlayers() == 0) {
+								game.setNextToChoose(game.getCurrentPlayer());
+							}
+							txtAreaConsole.setText("Wrong");
+							txtAreaConsole.append("\n" 
+									+ game.getCurrentPlayer().getName() 
+									+ " is out of the round");
+							game.getCurrentPlayer().loseRound();
+							game.nextPlayer();
+							txtAreaConsole.append("\n" 
+									+ game.getCurrentPlayer().getName() 
+									+ ", name a movie");
+	
+							checkForWin();
+							clearSearhBar();
 						}
-						updateMoviePosterPic();
-						clearSearhBar();
-					} else {
-						if (game.getNumOfEliminatedPlayers() == 0) {
-							game.setNextToChoose(game.getCurrentPlayer());
-						}
-						txtAreaConsole.setText("Wrong");
-						txtAreaConsole.append("\n" 
-								+ game.getCurrentPlayer().getName() 
-								+ " is out of the round");
-						game.getCurrentPlayer().loseRound();
-						game.nextPlayer();
-						txtAreaConsole.append("\n" 
-								+ game.getCurrentPlayer().getName() 
-								+ ", name a movie");
-
-						checkForWin();
-						clearSearhBar();
+	
 					}
-
+	
 				}
-
 			}
 		};
 		Action pass = new AbstractAction() {
