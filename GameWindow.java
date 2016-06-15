@@ -142,6 +142,7 @@ public class GameWindow {
 	 */
 	public GameWindow(final Game g) {
 		initialize(g);
+		setNames.doClick();
 	}
 
 	/**
@@ -219,13 +220,16 @@ public class GameWindow {
 		txtAreaScoreBoard.setWrapStyleWord(true);
 		txtAreaScoreBoard.setBorder(BorderFactory.createLineBorder(
 				Color.BLACK, 2, true));
-		
+		txtAreaScoreBoard.setBounds(136, 87, 276, 100);
+		layeredPane.add(txtAreaScoreBoard);
 
 		txtAreaGuessBoard = new JTextArea("");
 		txtAreaGuessBoard.setEditable(false);
 		txtAreaGuessBoard.setWrapStyleWord(true);
 		txtAreaGuessBoard.setBorder(BorderFactory.createLineBorder(
 				Color.BLACK, 2, true));
+		txtAreaGuessBoard.setBounds(136, 486, 276, 125);
+		layeredPane.add(txtAreaGuessBoard);
 		
 		
 		scoreScrollPane = new JScrollPane();
@@ -239,7 +243,7 @@ public class GameWindow {
 		
 		layeredPane.add(scoreScrollPane);
 		layeredPane.add(guessedScrollPane);
-		
+
 		displayNewRound();
 		setUpEventListeners();
 	}
